@@ -1,7 +1,7 @@
 {
-  "source": "Arad",
-  "destination": "Bucharest",
-  "graph": {
+  "initial_state": "Arad",
+  "goal_state": "Bucharest",
+  "state_space": {
     "Arad": {"Zerind": 75, "Sibiu": 140, "Timisoara": 118},
     "Zerind": {"Arad": 75, "Oradea": 71},
     "Oradea": {"Zerind": 71, "Sibiu": 151},
@@ -23,14 +23,14 @@
     "Iasi": {"Vaslui": 92, "Neamt": 87},
     "Neamt": {"Iasi": 87}
   },
-  "h": {
+  "heuristic": {
     "Arad": 366, "Zerind": 374, "Oradea": 380, "Timisoara": 329,
     "Lugoj": 244, "Mehadia": 241, "Drobeta": 242, "Craiova": 160,
     "Sibiu": 253, "Rimnicu Vilcea": 193, "Fagaras": 176, "Pitesti": 100,
     "Bucharest": 0, "Giurgiu": 77, "Urziceni": 80, "Hirsova": 151,
     "Eforie": 161, "Vaslui": 199, "Iasi": 226, "Neamt": 234
   },
-  "coords": {
+  "state_coordinates": {
     "Arad": [91, 492],
     "Zerind": [108, 531],
     "Oradea": [131, 571],
