@@ -1,38 +1,41 @@
 import json
 
-def depth_first_search(graph, start_node, goal_node):
-    reachable = set()
-    
-    def dfs_recursive(current_node):
-        if current_node in reachable:
-            return None
-        reachable.add(current_node)
+def depth_first_search(problem):
+    def dfs_recursive(current_state):
+        explored.add(current_state)
 
-        if current_node == goal_node:
-            return current_node
+        if current_state == goal_state:
+            return [goal_state]
 
-        for child in graph[current_node]:
-            found_node = dfs_recursive(child)
-            if found_node:
-                return found_node
+        for neighbor_state in state_space[current_state]:
+            if neighbor_state not in explored:
+                result = dfs_recursive(neighbor_state)
+                if result:
+                    return [current_state] + result
             
         return None
+    
+    state_space = problem["state_space"]
+    initial_state = problem["initial_state"]
+    goal_state = problem["goal_state"]
+    explored = set()
 
-    return dfs_recursive(start_node)
+    path = dfs_recursive(initial_state)
+    if path:
+        return path, len(path) - 1
+    return None
 
 def main():
-    with open("romenia.json", "r") as file:
-        data = json.load(file)
+    with open("romania_problem.json", "r") as file:
+        problem = json.load(file)
 
-    graph = data["edges"]
-    initial_state = data["initial_state"]
-    goal = data["goal"]
-   
-    result = depth_first_search(graph, initial_state, goal)
-    if result:
-        print(goal, "is reachable.")
+    solution = depth_first_search(problem)
+    if solution:
+        path, total_cost = solution
+        formatted_path = " -> ".join(path)
+        print(f"Path from {problem["initial_state"]} to {problem["goal_state"]}: {formatted_path}\nTotal path cost: {total_cost}")
     else:
-        print(goal, "is not reachable.")
-        
+        print(f"No path could be found from {problem['initial_state']} to {problem['goal_state']}.")
+
 if __name__ == "__main__":
     main()

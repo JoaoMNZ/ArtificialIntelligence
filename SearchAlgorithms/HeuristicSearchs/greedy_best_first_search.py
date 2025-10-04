@@ -2,32 +2,38 @@ import json
 
 def greedy_best_first_search(problem):
     def reconstruct_path_with_cost():
+        path = [goal_state]
         total_cost = 0
-        current_state = problem["goal_state"]
-        path = [current_state]
-        
+
+        current_state = goal_state
         while current_state in came_from:
             previous_state = came_from[current_state]
             path.append(previous_state)
-            total_cost += problem["state_space"][previous_state][current_state]
+            total_cost += state_space[previous_state][current_state]
             current_state = previous_state
 
         return path[::-1], total_cost
 
-    current_state = problem["initial_state"]
-    explored = {current_state}
+    state_space = problem["state_space"]
+    initial_state = problem["initial_state"]
+    goal_state = problem["goal_state"]
+    h_costs = problem["heuristic"]
+    explored = set()
     came_from = {}
-    while current_state != problem["goal_state"]:
+    
+    explored.add(initial_state)
+    current_state = initial_state
+    while current_state != goal_state:
         candidates = {
-            state
-            for state in problem["state_space"][current_state]
-            if state not in explored
+            neighbor_state
+            for neighbor_state in state_space[current_state]
+            if neighbor_state not in explored
         }
 
         if not candidates:
             return None
 
-        next_state = min(candidates, key=lambda state: problem["heuristic"][state])
+        next_state = min(candidates, key=lambda candidate: h_costs[candidate])
 
         came_from[next_state] = current_state
         explored.add(next_state)
